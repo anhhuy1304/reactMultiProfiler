@@ -1,13 +1,99 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+
+table td,
+table th {
+    border: 1px solid black !important;
+    padding: 5px;
+    text-align: right;
+}
+.text-center.nameProject{
+    width: 20%;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+hr {
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: solid;
+    border-width: 0.5px;
+    border-color: #888;
+}
+.dataTables_filter {
+    display: none;
+}
+
+.navbar{
+    background: #2196F3;
+}
+.navbar a{
+    color: white;
+}
+.navbar .navbar-brand{
+    text-transform: uppercase;
+    font-size: 1.2em;
+    padding-right: 20px;
+    border-right: solid;
+}
+.navbar .btn-outline-light:hover{
+    color: #2196F3;
+}
+.navbar .intput-project-search{
+    width: 400px;
+}
+.selectize-dropdown [data-selectable]{
+    padding: 5px 10px;
+    border-top: solid 1px #dadada3b; 
+}
+.selectize-dropdown .label{
+    font-weight: 600;
+    color: black;
+}
+
+.selectize-dropdown .caption{
+    font-weight: 200;
+    color: #333;
+}
+.selectize-input .name{
+    font-weight: 600;
+}
+.selectize-control.multi .selectize-input > div{
+    background: #03A9F4;
+    color: #ffffff;
+    border-radius: 3px
+}
+.bold{
+    font-weight: 600;
+}
+.text-info{
+    color: #2196F3!important;
+}
+.custom-control-label.opt-type{
+    border-right: solid 2px #2296f33d;
+    padding-right: 10px;
+}
+.table td, .table th{
+    padding: .5rem;
+}
+.navbar .selectize-control{
+    margin-top: 5px;
+}
+
+.navbar .intput-interval .selectize-input{
+    width: 120px;
+    margin-right: 10px;
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+}
+.navbar .intput-interval .selectize-input.input-active{
+    color: #2296f3;
+}
+.navbar .intput-interval .selectize-input,
+.navbar .intput-interval .selectize-input input, 
+.navbar .intput-interval .selectize-dropdown .option{
+    cursor: pointer;
+}
+.navbar .intput-interval .selectize-input:after{
+    border-color: #ffffff transparent transparent transparent;
 }

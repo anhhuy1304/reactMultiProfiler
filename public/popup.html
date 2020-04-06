@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap/css/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="fontawesome/css/all.css">
+    <link rel="stylesheet" href="selectize/css/selectize.css" />
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md ">
+        <a class="navbar-brand" href="#">Profiler</a>
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <div class="form-inline my-6 my-lg-6">
+                        <select class="mr-sm-6 intput-project-search" id="intput-project-search"
+                            placeholder="Select project..">
+                        </select>
+                    </div>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <div class="form-inline my-6 my-lg-6">
+                    <select class="mr-sm-6 intput-interval" id="intput-interval"
+                        placeholder="Refrest interval..">
+                        <option value="2">
+                            2 Seconds
+                        </option>
+                        <option value="5">
+                            5 Seconds
+                        </option>
+                        <option value="10">
+                            10 Seconds
+                        </option>
+                        <option value="60">
+                            1 Minute
+                        </option>
+                        <option value="60">
+                            3 Minute
+                        </option>
+                    </select>
+                </div>
+                <button class="btn btn-outline-light my-2 my-sm-0" id="btn-refresh" type="button" style="margin-right: 10px;"> <i class="fas fa-sync"></i> Refresh</button>
+                <button class="btn btn-outline-light my-2 my-sm-0" type="button" data-toggle="modal"
+                    data-target="#modal-edit-project"> <i class="fas fa-cogs"></i> Manage
+                    Project</button>
+            </form>
+        </div>
+    </nav>
+    <div class=" container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <br />
+                <a href="http://10.30.80.16:65000/sc"><strong>Index</strong></a> | <a
+                    href="http://10.30.80.16:65001/fi"><strong>Full Info</strong></a> | <a
+                    href="http://10.30.80.16:65001/st?refresh=2"><strong>Realtime Stats</strong></a> | <a
+                    href="http://10.30.80.16:65001/hs"><strong>History Stats</strong></a> | <a
+                    href="http://10.30.80.16:65001/cs?refresh=5"><strong>Custom Stats</strong></a> | <a
+                    href="http://10.30.80.16:65001/ns?refresh=2"><strong>Network Stats</strong></a> | <a
+                    href="http://10.30.80.16:65001/nhs"><strong>Network History Stats</strong></a> | <a
+                    href="http://10.30.80.16:65001/ad?refresh=5"><strong>Admin</strong></a>
+                <br />
+                <div class="card">
+                    <div class="card-header text-right">
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="opt-type-avg" name="opt-type"
+                                class="custom-control-input" value="2">
+                            <label class="custom-control-label opt-type bold" for="opt-type-avg">AVG</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="opt-type-sum" name="opt-type"
+                                class="custom-control-input" value="1">
+                            <label class="custom-control-label opt-type bold" for="opt-type-sum">SUM</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="opt-type-each" name="opt-type"
+                                class="custom-control-input " checked value="0">
+                            <label class="custom-control-label opt-type bold" for="opt-type-each">EACH</label>
+                        </div>
+                        <input id='filter' class="" style="width: 300px; padding: 2px;" placeholder="Filter..">
+
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped" id="data" style="border-collapse:collapse; border:1" cellpadding="5" cellspacing="5"
+                            width="100%">
+                            <thead>
+                                <tr>
+                                    <th colspan="8" style="background-color:aliceblue;" class="text-center">Thread(s)
+                                        Profiling</th>
+                                </tr>
+                                <tr style="background-color: paleturquoise">
+                                    <th class="text-center">Server</th>
+                                    <th class="text-center nameProject">Name</th>
+                                    <th class="text-center">TotalReq</th>
+                                    <th class="text-center">PendingReq</th>
+                                    <th class="text-center">TotalTmProc
+                                        <div style="margin-top: -5px;"><small class="text-secondary">(microsecs)</small>
+                                        </div>
+                                    </th>
+                                    <th class="text-center">LastTmProc
+                                        <div style="margin-top: -5px;"><small class="text-secondary">(microsecs)</small>
+                                        </div>
+                                    </th>
+                                    <th class="text-center">ProcRate
+                                        <div style="margin-top: -5px;"><small
+                                                class="text-secondary">(procs/second)</small></div>
+                                    </th>
+                                    <th class="text-center">ReqRate
+                                        <div style="margin-top: -5px;"><small
+                                                class="text-secondary">(reqs/second)</small></div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody style="text-align: right">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel panel-default" style="margin-top: 20px;">
+                    <!-- /.panel-heading -->
+                    <div class="panel-heading">
+                    </div>
+                    <div class="panel-body">
+                        <!-- <hr/> -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+
+    </div>
+
+    <div class="modal" tabindex="-1" role="dialog" id="modal-create-config">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Project</h4>
+                    <button style="margin-top: -30px;" type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label style="width:20%">Project Name</label>
+                            <input class="form-control" style="display: inline; width: 50%;" placeholder="Ex: zadmin"
+                                name="projectName" id="projectName" />
+                        </div>
+                        <div class="form-group">
+                            <label style="width:20%">Server</label>
+                            <div>
+                                <div style="margin-left: 20%; width: 50%;margin-top:2px; margin-bottom: 2px;">
+                                    <input class="form-control" style="display: inline; width: 70%;"
+                                        placeholder="Ex: 10.30.80.16" name="server" />
+                                    <button class="btn btn-danger btn-outline  btn-sm" style="width: 28%;"> Delete
+                                    </button>
+                                </div>
+                                <div style="margin-left: 20%; width: 50%;margin-top:2px; margin-bottom: 2px;">
+                                    <input class="form-control" style="display: inline; width: 70%;"
+                                        placeholder="Ex: 10.30.80.16" name="server" />
+                                    <button class="btn btn-danger btn-outline  btn-sm" style="width: 28%;"> Delete
+                                    </button>
+                                </div>
+                                <div style="margin-left: 20%; margin-top:2px; margin-bottom: 2px; width: 50%;">
+                                    <input class="form-control" style="display: inline; width: 70%;"
+                                        placeholder="Ex: 10.30.80.16" name="server" />
+                                    <button class="btn btn-danger btn-outline  btn-sm" style="width: 28%;"> Delete
+                                    </button>
+                                </div>
+                                <div style="margin-left: 20%; width: 50%;margin-top:2px; margin-bottom: 2px;">
+                                    <input class="form-control" style="display: inline; width: 70%;"
+                                        placeholder="Ex: 10.30.80.16" name="server" />
+                                    <button class="btn btn-success btn-outline  btn-sm" style="width: 28%;"> insert
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label style="width:20%">Project Name</label>ult
+                            <input class="form-control" style="display: inline; width: 50%;" placeholder="Ex: zadmin"
+                                name="projectName" id="projectName" />
+                        </div>
+                        <div class="form-group">
+                            <label style="width:20%">Server</label>
+                            <div>
+                                <div style="margin-left: 20%; width: 50%;margin-top:2px; margin-bottom: 2px;">
+                                    <input class="form-control" style="display: inline; width: 70%;"
+                                        placeholder="Ex: 10.30.80.16" name="server" />
+                                    <button class="btn btn-success btn-outline  btn-sm" style="width: 28%;"> insert
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <button id="newProject" type="button" class="btn btn-info">new project</button>
+                </div>
+                <div class="modal-footer">
+                    <button id="createProject" type="button" class="btn btn-success">SAVE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal-edit-project" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Manage Projects</h5>
+                    <button type="button" id="manageProject" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul id ='listProject' class="list-group">
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="btnSaveManageProject" type="button" data-dismiss="modal" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script id="itemManageServer" type="x-tmpl-mustache">
+        [[#projects]]
+            <li class="list-group-item">
+                <label class="bold text-info" name="project">[[projectName]]</label>
+                <input type="text" id="input-server-ips-[[projectName]]" placeholder="Server IP...">
+            </li>
+        [[/projects]]
+    </script>
+    <script id="buttonNewProject" type="x-tmpl-mustache">
+        <li id="newProjectLi"  class="list-group-item">
+            <button id="newProject" type="button" class="btn btn-success">+ New project</button>
+        </li>
+    </script>
+    <script id="liDontIdNewProject" type="x-tmpl-mustache">
+            <li class="list-group-item">
+                <input id='newProjectValue' type="text" style="margin-bottom:5px; width:100%; font-size:13px; padding: 8px 8px;border: 1px solid #d0d0d0;border-radius: 3px;" id="newProjectName" placeholder="Project name...">
+                <input type="text" id="newServer" placeholder="Server IP...">
+            </li>
+    </script>
+    <script src="js/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="selectize/js/standalone/selectize.js"></script>
+    <script src="js/WrapperIndexedDB.js"></script>
+    <script src="js/render.js"></script>
+    <script src="js/ProfilerIndexedDB.js"></script>
+    <script src="js/global_config.js"></script>
+    <script src="js/configIndexedDB.js"></script>
+    <script src="js/mustache.min.js"></script>
+    <script src="js/crawl.js"></script>
+    <script src="js/manageProject.js"></script>
+    <script src="js/realtime_stats.js"></script>
+    <script src="js/jquery.dataTables.js"></script>
+    <script src="js/dataTables.bootstrap.js"></script>
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>
